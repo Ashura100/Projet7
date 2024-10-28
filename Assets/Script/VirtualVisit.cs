@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class VirtualVisit : MonoBehaviour
 {
@@ -20,10 +19,5 @@ public class VirtualVisit : MonoBehaviour
     public void SetSkybox(Texture2D texture2D)
     {
         skybox.SetTexture("_MainTex", texture2D);
-    }
-
-    public void ChangeScene()
-    {
-        SceneManager.LoadScene("Visit Scene Video");
     }
 }

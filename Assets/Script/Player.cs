@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.SceneManagement;
+
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] GameObject death;
     [SerializeField] LifeSys lifeSys;
     public int health;
 
@@ -20,7 +21,7 @@ public class Player : MonoBehaviour
         lifeSys.TakeDamage(damage);
 
         // Ici, vous pouvez ajouter d'autres effets visuels ou sonores lors de la prise de dégâts
-        if (!lifeSys.isAlife)
+        if (health <= 0)
         {
             Die(); // Gérer la mort du joueur
         }
@@ -28,6 +29,6 @@ public class Player : MonoBehaviour
 
     void Die()
     {
-
+        death.SetActive(true);
     }
 }

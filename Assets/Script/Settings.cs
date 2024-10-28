@@ -8,7 +8,7 @@ using TMPro;
 public class Settings : MonoBehaviour
 {
     public AudioMixer audioMixer;
-
+    public AudioMixer audioSfxMixer;
     // Slider pour le volume principal et le volume des SFX
     [SerializeField] Slider levelMaster;
     [SerializeField] Slider sfxSlider;

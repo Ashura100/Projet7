@@ -30,7 +30,6 @@ public class Knight : MonoBehaviour
         agent.stoppingDistance = attackDistance;
         agent.updateRotation = false;
         attackCollider.isTrigger = true;
-        attackCollider.enabled = false; // Commence désactivé
         currentState = State.Idle;
         lifeSys.onDieDel += Die;
     }
@@ -54,7 +53,7 @@ public class Knight : MonoBehaviour
                 AttackState(distanceToPlayer);
                 break;
             case State.Death:
-                DeathState();
+                //DeathState();
                 break;
         }
     }
@@ -95,6 +94,7 @@ public class Knight : MonoBehaviour
 
         if (Time.time >= lastAttackTime + attackCooldown)
         {
+            AudioManager.Instance.PlaySwordSound();
             animator.SetTrigger("Attack");
             StartAttack();
             lastAttackTime = Time.time;
@@ -115,28 +115,42 @@ public class Knight : MonoBehaviour
         rb.velocity = Vector3.zero;
         animator.SetBool("Run", false);
         animator.SetTrigger("Die"); // Déclenche l'animation de mort
+        AudioManager.Instance.PlayDeathSound();
         Destroy(gameObject, 2f); // Détruit le chevalier après 2 secondes
     }
 
     private void TransitionToState(State newState)
     {
+        if(currentState == newState) return;
+
         Debug.Log("Transition vers l'état : " + newState);
         currentState = newState;
 
-        if (newState != State.Attack)
+        switch (newState)
         {
-            EndAttack();
+            case State.Idle:
+                EndAttack();
+                break;
+            case State.Chase:
+                EndAttack();
+                break;
+            case State.Attack:
+                break;
+            case State.Death:
+                EndAttack();
+                DeathState();
+                break;
         }
     }
 
     public void StartAttack()
     {
-        attackCollider.enabled = true;
+        attackCollider.isTrigger = true;
     }
 
     public void EndAttack()
     {
-        attackCollider.enabled = false;
+        attackCollider.isTrigger = false;
     }
 
     private void OnTriggerEnter(Collider other)
