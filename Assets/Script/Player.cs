@@ -6,10 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] GameObject death;
     [SerializeField] LifeSys lifeSys;
     public int health;
 
+    private void Start()
+    {
+        lifeSys.onDieDel += Die;
+    }
     void Update()
     {
         health = lifeSys.currentHealth;
@@ -29,6 +32,6 @@ public class Player : MonoBehaviour
 
     void Die()
     {
-        death.SetActive(true);
+        SceneManager.LoadScene("DeathScene");
     }
 }

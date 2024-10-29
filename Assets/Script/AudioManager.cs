@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource sfxPlayer;
 
     [SerializeField]
-    private AudioClip clickSound, gameClickSound, HomeSound, themeSound, gameSound, swordSound, deathSound, winSound, gameOverSound;
+    private AudioClip clickSound, gameClickSound, HomeSound, themeSound, gameSound, swordSound, screamSound, deathSound, winSound, gameOverSound;
 
     private void Awake()
     {
@@ -50,7 +50,7 @@ public class AudioManager : MonoBehaviour
             case "Win":
                 PlayWinSound();
                 break;
-            case "GameOver":
+            case "GameOverScene":
                 PlayGameOverSound();
                 break;
             default:
@@ -84,6 +84,12 @@ public class AudioManager : MonoBehaviour
     public void PlayClickSound()
     {
         sfxPlayer.clip = clickSound;
+        sfxPlayer.Play();
+    }
+
+    public void PlayScreamSound()
+    {
+        sfxPlayer.clip = screamSound;
         sfxPlayer.Play();
     }
 

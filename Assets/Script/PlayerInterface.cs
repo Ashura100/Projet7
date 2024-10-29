@@ -8,7 +8,7 @@ public class PlayerInterface : MonoBehaviour
     public GameObject parametre;
     public GameObject Infos;
 
-    public bool isActive = false;
+    private bool isActive = false;
 
     public void chargerScene(string nomScene)
     {
@@ -17,24 +17,16 @@ public class PlayerInterface : MonoBehaviour
 
     public void InfosButton()
     {
-        if (isActive)
-        {
-            Infos.SetActive(true);
-            isActive = true;
-        }
-        else
-        {
-            Infos.SetActive(false);
-            isActive = false;
-        }
-        
+        isActive = !isActive; // Inverse la valeur de isActive
+        Infos.SetActive(isActive);
     }
 
     public void ParameterButton()
     {
         parametre.SetActive(true);
     }
-    //fonction du bouton quitter option désactive le canvas paramètre
+
+    // fonction du bouton quitter option désactive le canvas paramètre
     public void ReturnInterface()
     {
         parametre.SetActive(false);

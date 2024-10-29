@@ -8,21 +8,22 @@ public class Knight : MonoBehaviour
     public int health;
     public Transform player;
     public float attackDistance = 2.0f;
-    public float chaseDistance = 0.0f;
+    public float chaseDistance = 5.0f;
     public int damage = 10;
-    public float attackCooldown = 1.5f; // Temps entre les attaques
+    public float attackCooldown = 2.0f;
 
     [SerializeField] LifeSys lifeSys;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Animator animator;
     [SerializeField] Rigidbody rb;
-
     [SerializeField] private BoxCollider attackCollider;
-    public LayerMask playerLayer;
 
-    private enum State { Idle, Chase, Attack, Death }
+    private enum State { Idle, Chase, Attack, TakeDamage, Death }
     private State currentState;
+    private State previousState; // État précédent pour revenir après TakeDamage
     private float lastAttackTime;
+    private bool isAttackActive;
+    private float takeDamageCooldown = 1.0f;
 
     private void Start()
     {
@@ -32,11 +33,13 @@ public class Knight : MonoBehaviour
         attackCollider.isTrigger = true;
         currentState = State.Idle;
         lifeSys.onDieDel += Die;
+
+        EndAttack();
     }
 
     private void Update()
     {
-        if (currentState == State.Death) return; // Ne rien faire si en état de mort
+        if (currentState == State.Death) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         health = lifeSys.currentHealth;
@@ -53,7 +56,6 @@ public class Knight : MonoBehaviour
                 AttackState(distanceToPlayer);
                 break;
             case State.Death:
-                //DeathState();
                 break;
         }
     }
@@ -61,6 +63,7 @@ public class Knight : MonoBehaviour
     private void IdleState(float distanceToPlayer)
     {
         animator.SetBool("Run", false);
+        AudioManager.Instance.PlayScreamSound();
 
         if (distanceToPlayer <= chaseDistance)
         {
@@ -94,15 +97,16 @@ public class Knight : MonoBehaviour
 
         if (Time.time >= lastAttackTime + attackCooldown)
         {
-            AudioManager.Instance.PlaySwordSound();
             animator.SetTrigger("Attack");
-            StartAttack();
             lastAttackTime = Time.time;
+
+            Invoke(nameof(StartAttack), 0.5f);
+            AudioManager.Instance.PlaySwordSound();
+            Invoke(nameof(EndAttack), 1.0f);
         }
 
         if (distanceToPlayer > attackDistance)
         {
-            EndAttack();
             agent.isStopped = false;
             TransitionToState(State.Chase);
         }
@@ -110,31 +114,27 @@ public class Knight : MonoBehaviour
 
     private void DeathState()
     {
-        // Stop toutes les actions et animations
         agent.isStopped = true;
         rb.velocity = Vector3.zero;
         animator.SetBool("Run", false);
-        animator.SetTrigger("Die"); // Déclenche l'animation de mort
+        animator.SetTrigger("Die");
         AudioManager.Instance.PlayDeathSound();
-        Destroy(gameObject, 2f); // Détruit le chevalier après 2 secondes
+        Destroy(gameObject, 2f);
     }
 
     private void TransitionToState(State newState)
     {
-        if(currentState == newState) return;
+        if (currentState == newState) return;
 
         Debug.Log("Transition vers l'état : " + newState);
+
         currentState = newState;
 
         switch (newState)
         {
             case State.Idle:
-                EndAttack();
-                break;
             case State.Chase:
                 EndAttack();
-                break;
-            case State.Attack:
                 break;
             case State.Death:
                 EndAttack();
@@ -143,25 +143,26 @@ public class Knight : MonoBehaviour
         }
     }
 
-    public void StartAttack()
+    private void StartAttack()
     {
-        attackCollider.isTrigger = true;
+        isAttackActive = true;
+        attackCollider.enabled = true;
     }
 
-    public void EndAttack()
+    private void EndAttack()
     {
-        attackCollider.isTrigger = false;
+        isAttackActive = false;
+        attackCollider.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (((1 << other.gameObject.layer) & playerLayer) != 0)
+        if (!isAttackActive) return;
+
+        LifeSys lifeSystem = player.GetComponent<LifeSys>();
+        if (lifeSystem != null)
         {
-            LifeSys lifeSystem = other.GetComponent<LifeSys>();
-            if (lifeSystem != null)
-            {
-                lifeSystem.TakeDamage(damage);
-            }
+            lifeSystem.TakeDamage(damage);
         }
     }
 
@@ -170,7 +171,7 @@ public class Knight : MonoBehaviour
         health -= damage;
         lifeSys.healthbar.UpdateHealth();
 
-        if (health <= 0 && currentState != State.Death) // Evite ré-activation de Death
+        if (health <= 0 && currentState != State.Death)
         {
             Die();
         }
