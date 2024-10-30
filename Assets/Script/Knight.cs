@@ -18,7 +18,7 @@ public class Knight : MonoBehaviour
     [SerializeField] Rigidbody rb;
     [SerializeField] private BoxCollider attackCollider;
 
-    private enum State { Idle, Chase, Attack, TakeDamage, Death }
+    private enum State { Idle, Chase, Attack, Death }
     private State currentState;
     private State previousState; // État précédent pour revenir après TakeDamage
     private float lastAttackTime;

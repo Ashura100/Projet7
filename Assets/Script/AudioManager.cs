@@ -50,9 +50,6 @@ public class AudioManager : MonoBehaviour
             case "Win":
                 PlayWinSound();
                 break;
-            case "GameOverScene":
-                PlayGameOverSound();
-                break;
             default:
                 StopCurrentSound();
                 break;

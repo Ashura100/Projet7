@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 
 public class Player : MonoBehaviour
 {
     [SerializeField] LifeSys lifeSys;
+    public GameObject death;
     public int health;
 
     private void Start()
@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
 
     void Die()
     {
-        SceneManager.LoadScene("DeathScene");
+        death.SetActive(true);
+        AudioManager.Instance.PlayGameOverSound();
     }
 }
