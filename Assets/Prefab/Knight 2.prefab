@@ -918,9 +918,11 @@ MonoBehaviour:
   health: 0
   player: {fileID: 0}
   attackDistance: 2
-  chaseDistance: 30
-  damage: 10
+  chaseDistance: 10
+  damage: 20
   attackCooldown: 1.5
+  fieldOfViewAngle: 120
+  idleBlendSpeed: 1
   lifeSys: {fileID: 4420666433109291409}
   agent: {fileID: 5049157014298149185}
   animator: {fileID: 882579476432120045}

@@ -11,6 +11,8 @@ public class Knight : MonoBehaviour
     public float chaseDistance = 5.0f;
     public int damage = 10;
     public float attackCooldown = 2.0f;
+    public float fieldOfViewAngle = 45f;  // Champ de vision en degrés
+    public float idleBlendSpeed = 0.1f;   // Vitesse de transition entre animations d'Idle
 
     [SerializeField] LifeSys lifeSys;
     [SerializeField] NavMeshAgent agent;
@@ -20,14 +22,12 @@ public class Knight : MonoBehaviour
 
     private enum State { Idle, Chase, Attack, Death }
     private State currentState;
-    private State previousState; // État précédent pour revenir après TakeDamage
     private float lastAttackTime;
     private bool isAttackActive;
-    private float takeDamageCooldown = 1.0f;
+    private bool isPlayerInSight;
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
         agent.stoppingDistance = attackDistance;
         agent.updateRotation = false;
         attackCollider.isTrigger = true;
@@ -43,6 +43,7 @@ public class Knight : MonoBehaviour
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         health = lifeSys.currentHealth;
+        isPlayerInSight = IsPlayerInFieldOfView();
 
         switch (currentState)
         {
@@ -63,10 +64,13 @@ public class Knight : MonoBehaviour
     private void IdleState(float distanceToPlayer)
     {
         animator.SetBool("Run", false);
-        AudioManager.Instance.PlayScreamSound();
 
-        if (distanceToPlayer <= chaseDistance)
+        // Activer le Blend Tree d'Idle
+        animator.SetFloat("IdleBlend", Random.Range(0f, 1f), idleBlendSpeed, Time.deltaTime);
+
+        if (isPlayerInSight && distanceToPlayer <= chaseDistance)
         {
+            AudioManager.Instance.PlayScreamSound();
             TransitionToState(State.Chase);
         }
     }
@@ -128,11 +132,19 @@ public class Knight : MonoBehaviour
 
         Debug.Log("Transition vers l'état : " + newState);
 
+        // Si on quitte l'état Idle, arrêter le blend tree en fixant IdleBlend à 0
+        if (currentState == State.Idle)
+        {
+            animator.SetFloat("IdleBlend", 0f);  // Réinitialiser l'IdleBlend
+        }
+
         currentState = newState;
 
         switch (newState)
         {
             case State.Idle:
+                EndAttack();
+                break;
             case State.Chase:
                 EndAttack();
                 break;
@@ -191,5 +203,13 @@ public class Knight : MonoBehaviour
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
         }
+    }
+
+    private bool IsPlayerInFieldOfView()
+    {
+        Vector3 directionToPlayer = (player.position - transform.position).normalized;
+        float angle = Vector3.Angle(transform.forward, directionToPlayer);
+
+        return angle < fieldOfViewAngle / 2f;
     }
 }
