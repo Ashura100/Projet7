@@ -15,12 +15,19 @@
 
 ## **Objectifs de l'application**
 
+![Projet71](https://github.com/user-attachments/assets/29f1bf66-c11e-4891-a7c3-cb04f5889e1a)
+![Projet75](https://github.com/user-attachments/assets/995e364f-a039-4694-ad33-3932ed47da6c)
+![Projet74](https://github.com/user-attachments/assets/5a27178c-5824-46c8-a6cc-e1141c161501)
+![Projet73](https://github.com/user-attachments/assets/10a74e57-a18f-4196-85a8-27290734b2db)
+![Projet72](https://github.com/user-attachments/assets/ee525e7f-1e56-4f58-9bee-0963ccb57fcb)
+
+
 Créer une application VR (Réalité Virtuelle) sur Unity, comportant une visite grâce des photos de la cité médiévale de Carcassonne et une autre visite grâce à des vidéos tout en VR.                  
 Les visites doivent se faire grâce à des déplacements en téléportation et contenir un affichage des FPS.
 
 ## **Explication**
 
-![ARQueaScreens](https://github.com/user-attachments/assets/c2d5fdf9-b6bd-428f-a59f-e600611d770b)
+
 
  - **XR Rig**:
 
