@@ -27,40 +27,37 @@ Les visites doivent se faire grâce à des déplacements en téléportation et c
 
 ## **Explication**
 
-
-
  - **XR Rig**:
 
-
+ Le **XR Rig** dans Unity est un **Prefab** pré-configuré pour permettre le **déplacement**, les **mouvements** et les **interactions**, il inclut les **Controllers**, la **Caméra**, un **Character Controller** et les **Scripts** permettant le bon fonctionnement des principales mécanique, C'est grâce à lui que l'on interagit dans les scenes de l'application mais aussi qu'on se déplace sur un plane.
 
 - **Teleportation Anchor**:
 
-
-
-- **UI**:
-
-  
+Ils sont des points de téléportation avec lesquels on peut **interagir** grâce aux **raycasts des controllers** pour les selectionner et se teleporter au prochain point, Ils permettent au personnage de se téléporter à travers la scene sélectionner et dans la scene en elle-même.
 
 - **VideoPlayer**:
 
-  
+  le **VideoPlayer** un **composent** permettant de lire des vidéo mp4, il peut les lire à partir d'une **texture** ce qui crée un écran de lecture, les vidéos jouées dans la Vidéo Virtual Visit sont donc lu par le VidéoPlayer.
+
+- **UI**:
+
+  Il a été demandé d'afficher les FPS, ils sont affiché sur un **Canvas** en **WorldSpace** et des **TextMeshPro** contenu dans le canvas et un autre à été 
   
 - **Skybox**:
 
-  
+  La Skybox est un Material Panoramique auquelle on affecte une image, elle permet d'afficher les images de la visite.
   
 - **Bonus**:
 
-  
+  Pour rendre la visite plus ludique, un personnage en model 3D a été rajouté avec un animation pour les mains et une Visit avec des ennemis a été rajouté dans laquelle on retrouve la téléportion et l'interaction avec une épée pour mener le combat contre les ennemis.
 
 ## **Démonstration**
 
-
-
+![Projet7](https://github.com/user-attachments/assets/61b7d4d4-3d6d-4288-9651-299b549f5fec)
 
 ## **Conclusion**
 
-Pour Conclure, l'application est fonctionnelle, permet de choisir des catégories d'article et et les articles de la catégorie choisie, de les mettrent en AR et de les mettrent dans le panier ou non.
+Pour Conclure, l'application est fonctionnelle, permet de choisir trois visite différentes, de ce déplacer en se téléportant et de faire des combats pour avancer ou de profité du paysage.
 
 ![true-romance-tony-scott](https://github.com/user-attachments/assets/6d7612a3-c492-4003-ad20-21d691f44156)
 
