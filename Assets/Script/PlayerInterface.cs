@@ -3,32 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerInterface : MonoBehaviour
+namespace VRV
 {
-    public GameObject parametre;
-    public GameObject Infos;
-
-    private bool isActive = false;
-
-    public void chargerScene(string nomScene)
+    public class PlayerInterface : MonoBehaviour
     {
-        SceneManager.LoadScene(nomScene);
-    }
+        public GameObject parametre;
+        public GameObject Infos;
 
-    public void InfosButton()
-    {
-        isActive = !isActive; // Inverse la valeur de isActive
-        Infos.SetActive(isActive);
-    }
+        private bool isActive = false;
 
-    public void ParameterButton()
-    {
-        parametre.SetActive(true);
-    }
+        public void chargerScene(string nomScene)
+        {
+            SceneManager.LoadScene(nomScene);
+        }
 
-    // fonction du bouton quitter option désactive le canvas paramètre
-    public void ReturnInterface()
-    {
-        parametre.SetActive(false);
+        public void InfosButton()
+        {
+            isActive = !isActive; // Inverse la valeur de isActive
+            Infos.SetActive(isActive);
+        }
+
+        public void ParameterButton()
+        {
+            parametre.SetActive(true);
+        }
+
+        // fonction du bouton quitter option désactive le canvas paramètre
+        public void ReturnInterface()
+        {
+            parametre.SetActive(false);
+        }
     }
 }

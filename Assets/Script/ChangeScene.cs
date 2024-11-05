@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ChangementScene : MonoBehaviour
+namespace VRV
 {
-    public void ChangeScene(string nomScene)
+    public class ChangementScene : MonoBehaviour
     {
-        SceneManager.LoadScene(nomScene);
+        public void ChangeScene(string nomScene)
+        {
+            SceneManager.LoadScene(nomScene);
+        }
     }
 }

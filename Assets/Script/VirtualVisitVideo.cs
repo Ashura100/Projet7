@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 
-public class VirtualVisitVideo : MonoBehaviour
+namespace VRV
 {
-    public VideoPlayer videoPlayer;
-    
-    public void SetSkyboxVideo(VideoClip video)
+    public class VirtualVisitVideo : MonoBehaviour
     {
-        videoPlayer.clip = video;
+        public VideoPlayer videoPlayer;
+
+        public void SetSkyboxVideo(VideoClip clip)
+        {
+            if (clip != null && videoPlayer != null)
+            {
+                videoPlayer.clip = clip;
+                videoPlayer.Play();
+            }
+        }
     }
+
 }

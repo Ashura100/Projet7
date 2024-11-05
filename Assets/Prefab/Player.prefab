@@ -1787,8 +1787,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: 2f7b47d6f41962f43b08186891a848fa, type: 2}
-  audioSfxMixer: {fileID: 24100000, guid: 7952ae8eedf81344eb0c3dc4d7458bf2, type: 2}
-  levelMaster: {fileID: 8743472951849505062}
+  musiqueSlider: {fileID: 8743472951849505062}
   sfxSlider: {fileID: 8429563376504970017}
   fullScreenToggle: {fileID: 8396208422149421063}
   resolutionDrop: {fileID: 4117780366214642724}

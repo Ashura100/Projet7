@@ -928,7 +928,7 @@ MonoBehaviour:
   damage: 10
   attackCooldown: 1.5
   fieldOfViewAngle: 90
-  idleBlendSpeed: 0.1
+  idleBlendSpeed: 1
   lifeSys: {fileID: 1075017748259212888}
   agent: {fileID: 115762057737170904}
   animator: {fileID: 425829742082874754}

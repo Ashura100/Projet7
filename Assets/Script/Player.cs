@@ -3,36 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Player : MonoBehaviour
+namespace VRV
 {
-    [SerializeField] LifeSys lifeSys;
-    public GameObject death;
-    public int health;
-
-    private void Start()
+    public class Player : MonoBehaviour
     {
-        lifeSys.onDieDel += Die;
-    }
-    void Update()
-    {
-        health = lifeSys.currentHealth;
-    }
+        [SerializeField] LifeSys lifeSys;
+        public GameObject death;
+        public int health;
 
-    // Méthode pour infliger des dégâts au joueur
-    public void TakeDamage(int damage)
-    {
-        lifeSys.TakeDamage(damage);
-
-        // Ici, vous pouvez ajouter d'autres effets visuels ou sonores lors de la prise de dégâts
-        if (health <= 0)
+        private void Start()
         {
-            Die(); // Gérer la mort du joueur
+            Time.timeScale = 1;
+            lifeSys.onDieDel += Die;
+        }
+        void Update()
+        {
+            health = lifeSys.currentHealth;
+        }
+
+        // Méthode pour infliger des dégâts au joueur
+        public void TakeDamage(int damage)
+        {
+            lifeSys.TakeDamage(damage);
+
+            // Ici, vous pouvez ajouter d'autres effets visuels ou sonores lors de la prise de dégâts
+            if (health <= 0)
+            {
+                Die(); // Gérer la mort du joueur
+            }
+        }
+
+        void Die()
+        {
+            Time.timeScale = 0;
+            death.SetActive(true);
+            AudioManager.Instance.PlayGameOverSound();
         }
     }
 
-    void Die()
-    {
-        death.SetActive(true);
-        AudioManager.Instance.PlayGameOverSound();
-    }
 }
